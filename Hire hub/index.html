@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireHub | Recruitment Platform</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header class="navbar">
+    <a class="logo" href="#">Hire<span>Hub.</span></a>
+    <nav>
+      <a href="#jobs">Find Jobs</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#analytics">Analytics</a>
+    </nav>
+    <button class="btn" id="postJobBtn">Post a Job +</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">YOUR NEXT OPPORTUNITY STARTS HERE</p>
+      <h1>Find work that<br><span>moves you forward.</span></h1>
+      <p>Discover opportunities and take the next step in your career.</p>
+
+      <form id="searchForm" class="search-box">
+        <input id="searchInput" type="search"
+          placeholder="Job title, skill or company">
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="Development">Development</option>
+          <option value="Design">Design</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Business">Business</option>
+        </select>
+        <button class="btn" type="submit">Search Jobs</button>
+      </form>
+    </section>
+
+    <section class="section" id="jobs">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OPPORTUNITIES</p>
+          <h2>Explore Jobs</h2>
+        </div>
+        <span id="jobCount" class="muted"></span>
+      </div>
+      <div id="jobList" class="job-grid"></div>
+    </section>
+
+    <section class="section dashboard" id="dashboard">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR ACTIVITY</p>
+          <h2>Applicant Dashboard</h2>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>Total Applications</span>
+          <strong id="applicationCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Under Review</span>
+          <strong id="reviewCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Interviews</span>
+          <strong id="interviewCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Hired</span>
+          <strong id="offerCount">0</strong>
+        </article>
+      </div>
+
+      <h3 class="subheading">Recent Applications</h3>
+      <div id="applicationList" class="application-list"></div>
+    </section>
+
+    <section class="section" id="analytics">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DATA OVERVIEW</p>
+          <h2>Hiring Analytics</h2>
+          <p class="muted">A live overview of recruitment activity.</p>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <article class="panel chart-panel">
+          <h3>Application Status</h3>
+          <p class="muted">Distribution of candidate applications</p>
+          <div class="chart-wrap">
+            <canvas id="statusChart" aria-label="Application status chart"></canvas>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h3>Recruitment Progress</h3>
+          <p class="muted">Candidates across each stage</p>
+          <div id="progressBars" class="progress-list"></div>
+        </article>
+      </div>
+
+      <div class="stats-grid analytics-stats">
+        <article class="stat-card">
+          <span>Jobs Available</span>
+          <strong id="analyticsJobs">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Applications</span>
+          <strong id="analyticsApplications">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Interviews Scheduled</span>
+          <strong id="analyticsInterviews">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Successful Hires</span>
+          <strong id="analyticsOffers">0</strong>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="logo" href="#">Hire<span>Hub.</span></a>
+    <p>Connecting talent with opportunity.</p>
+    <small>© 2026 HireHub Recruitment Platform</small>
+  </footer>
+
+  <dialog id="detailsDialog" class="modal">
+    <form method="dialog" class="modal-close">
+      <button class="close-btn" aria-label="Close">✕</button>
+    </form>
+    <div id="jobDetails"></div>
+  </dialog>
+
+  <dialog id="jobDialog" class="modal">
+    <form method="dialog" class="modal-close">
+      <button class="close-btn" aria-label="Close">✕</button>
+    </form>
+    <h2>Apply for this Job</h2>
+    <p id="applyJobTitle" class="muted"></p>
+    <form id="applicationForm" class="form-stack">
+      <input type="hidden" id="applyJobId">
+      <label>Full Name
+        <input id="candidateName" required maxlength="100"
+          placeholder="Enter your full name">
+      </label>
+      <label>Email Address
+        <input id="candidateEmail" type="email" required
+          placeholder="you@example.com">
+      </label>
+      <label>Phone Number
+        <input id="candidatePhone" type="tel" required
+          placeholder="Your phone number">
+      </label>
+      <label>Skills and Experience
+        <textarea id="candidateSkills" required rows="3"
+          placeholder="Describe your skills and experience"></textarea>
+      </label>
+      <button class="btn" type="submit">Submit Application</button>
+    </form>
+  </dialog>
+
+  <dialog id="postJobDialog" class="modal">
+    <form method="dialog" class="modal-close">
+      <button class="close-btn" aria-label="Close">✕</button>
+    </form>
+    <h2>Post a New Job</h2>
+    <form id="postJobForm" class="form-stack">
+      <label>Job Title
+        <input id="newJobTitle" required placeholder="e.g. Web Developer">
+      </label>
+      <label>Company
+        <input id="newJobCompany" required placeholder="Company name">
+      </label>
+      <label>Location
+        <input id="newJobLocation" required placeholder="e.g. Lahore / Remote">
+      </label>
+      <label>Category
+        <select id="newJobCategory" required>
+          <option value="Development">Development</option>
+          <option value="Design">Design</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Business">Business</option>
+        </select>
+      </label>
+      <label>Salary
+        <input id="newJobSalary" required placeholder="e.g. PKR 60k–90k">
+      </label>
+      <label>Job Type
+        <select id="newJobType">
+          <option>Full-time</option>
+          <option>Part-time</option>
+          <option>Internship</option>
+          <option>Contract</option>
+        </select>
+      </label>
+      <label>Job Description
+        <textarea id="newJobDescription" required rows="4"
+          placeholder="Describe the role and requirements"></textarea>
+      </label>
+      <button class="btn" type="submit">Publish Job</button>
+    </form>
+  </dialog>
+
+  <dialog id="interviewDialog" class="modal">
+    <form method="dialog" class="modal-close">
+      <button class="close-btn" aria-label="Close">✕</button>
+    </form>
+    <h2>Schedule Interview</h2>
+    <form id="interviewForm" class="form-stack">
+      <input id="interviewApplicationId" type="hidden">
+      <label>Interview Date and Time
+        <input id="interviewDate" type="datetime-local" required>
+      </label>
+      <label>Interview Type
+        <select id="interviewType">
+          <option>Online</option>
+          <option>In-person</option>
+          <option>Phone Call</option>
+        </select>
+      </label>
+      <label>Meeting Details
+        <input id="interviewLocation" placeholder="Meeting link or location">
+      </label>
+      <button class="btn" type="submit">Save Interview</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
